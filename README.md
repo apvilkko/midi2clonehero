@@ -6,18 +6,18 @@
 
 This script was mainly developed for getting accurate expert pro drums transcriptions into the game. Why a script instead of using the de facto editor [Moonscraper](https://github.com/FireFox2000000/Moonscraper-Chart-Editor)?
 
- - Editing in a DAW is faster and more convenient if you're already familiar with the workflow, and you can use any software which can export MIDI
- - A script can create the chart automatically in a semi-intelligent way instead of manual work
- - A MIDI file can act as the more accurate archivable transcription since Clone Hero charts are always an approximation and not necessarily a one-to-one match to the actual performance
- - Multiple chart variants can be created from the same MIDI input
+- Editing in a DAW is faster and more convenient if you're already familiar with the workflow, and you can use any software which can export MIDI
+- A script can create the chart automatically in a semi-intelligent way instead of manual work
+- A MIDI file can act as the more accurate archivable transcription since Clone Hero charts are always an approximation and not necessarily a one-to-one match to the actual performance
+- Multiple chart variants can be created from the same MIDI input
 
- ## Default functionality
+## Default functionality
 
 - 4-lane Pro drums output with Expert difficulty
 - All hi-hats (closed, pedal, open) are mapped to yellow cymbal
 - Other cymbals than hi-hat are never mapped to yellow cymbal
 - Rides and crash 2 are mapped to green and all the rest to blue
-  - these may be automatically re-mapped inside sections where e.g. crash 2 occurs in between rides (`strict` option can be used to disable this) 
+  - these may be automatically re-mapped inside sections where e.g. crash 2 occurs in between rides (`strict` option can be used to disable this)
   - the `cymbalflip` option can be used to switch blue/green cymbal around
 - Supported MIDI notes out of the box
   - Kick (35, 36)
@@ -34,6 +34,7 @@ This script was mainly developed for getting accurate expert pro drums transcrip
 [Python](https://www.python.org/) 3 should be installed.
 
 [Initialize virtual environment](https://docs.python.org/3/library/venv.html#creating-virtual-environments), install requirements and activate the virtual environment:
+
 ```
 python -m venv env
 pip install -r requirements.txt
@@ -46,7 +47,7 @@ On Windows, replace last line with `env\Scripts\activate`
 
 In activated virtual environment:
 
- `python midi2clonehero.py [-h] [--cymbalflip] [--strict] [--meta META] inputfile`
+`python midi2clonehero.py [-h] [--cymbalflip] [--strict] [--meta META] inputfile`
 
 ```
 positional arguments:
@@ -56,6 +57,8 @@ options:
   --cymbalflip  Flip blue/green cymbals
   --strict      Map notes strictly without any automatic improvements
   --meta META   Source .chart file for song metadata
+  --ghosts      Enable ghost notes
+  --accents     Enable accent notes
 ```
 
 ### Input MIDI file
@@ -72,12 +75,13 @@ Metadata file uses the .chart format also so you can copy and edit this from an 
 - Flams should be notated as 2 consecutive 64th notes (or at least faster than 32nd notes)
 - Anything longer than a quarter note is considered a swell for drums. Swells are implemented as special roll lane events.
 - Because of limitations of the file format/game implementation, blue tom and blue cymbal can't occur at the same time. If this happens during processing a warning will be displayed. You can try the `cymbalflip` option to resolve this, or manually edit the source MIDI file.
+- If ghost notes are enabled, velocities of 60 and under are marked as ghost notes
+- If accent notes are enabled, velocities of 120 and over are marked as accented
 
 ## TODO / wishlist
 
 - flam options
 - open hihat options
-- automatic accents/ghosts based on velocity
 - automatic kick2x mapping
 - star power phrases/activations
 
